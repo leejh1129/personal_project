@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 public class GoodsDao extends DAO{
 
+	
+	
 	public void select(Goods num) {
 		getOpen();
 		String sql = "select distinct goods_color,"
@@ -95,6 +97,7 @@ public class GoodsDao extends DAO{
 
 	public void selectAll() {
 		getOpen();
+		
 		String sql = "select * from tbl_goods";
 		try {
 			Goods gd = new Goods();
@@ -122,36 +125,60 @@ public class GoodsDao extends DAO{
 
 	public void insert(Goods goods) {
 		getOpen();
-		String sql = "insert into tbl_goods values(upper(?),?,?,?,?,?,?,?,?);";
+		String sql = "insert into tbl_goods values(upper(?),?,?,?,?,?,?,?,?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sql);
+			pstmt.setString(1, goods.getGoodsNum());
+			pstmt.setString(2, goods.getGoodsBrand());
+			pstmt.setString(3, goods.getGoodsCategory());
+			pstmt.setInt(4, goods.getGoodsCategoryNum());
+			pstmt.setString(5, goods.getGoodsColor());
+			pstmt.setString(6, goods.getGoodsName());
+			pstmt.setInt(7, goods.getGoodsPrice());
+			pstmt.setInt(8, goods.getGoodsCount());
+			pstmt.setInt(9, goods.getGoodsSize());
+			
+			int rows = pstmt.executeUpdate();
+			if(rows == 1) {
+				System.out.println("상품추가완료");
+			}else {
+				System.out.println("상품추가 실패");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void delete(Goods goods) {
+		getOpen();
+		String sql = "delete from tbl_goods where goods_num=upper(?)";
+		String sqlSelect = "select goods_name from tbl_goods where goods_num=upper(?)";
+		try {
+			
+			pstmt = conn.prepareStatement(sqlSelect);
+			pstmt.setString(1, goods.getGoodsNum());
+			
+			rs = pstmt.executeQuery();
+			
+			String select = null;
+			
+			if(rs.next()) {
+				select = rs.getString("goods_name");
+			}else {
+				System.out.println("상품이 존재하지 않습니다");
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, goods.getGoodsNum());
+			System.out.printf("상품번호 : %s\t상품명 : %s\t 삭제완료",goods.getGoodsNum(),select);
+			System.out.println();
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-//	public void selectAll() {
-//		getOpen();
-//		String sql = "select * from tbl_goods ";
-//		Goods gd = new Goods();
-//		try {
-//			PreparedStatement pstmt = conn.prepareStatement(sql);
-//			
-//			rs = pstmt.executeQuery();
-//			while(rs.next()) {
-//				gd.setGoodsNum(rs.getInt("goods_num"));
-//				gd.setGoodsName(rs.getString("goods_name"));
-//				gd.setGoodsPrice(rs.getInt("goods_price"));
-//				gd.setGoodsCount(rs.getInt("goods_count"));
-//				
-//				System.out.println(gd);
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//				getClose();
-//	}
 
 
 

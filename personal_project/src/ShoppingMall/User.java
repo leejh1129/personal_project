@@ -16,6 +16,7 @@ public class User {
 		userName = joinName;
 	}
 
+
 	public String getUserId() {
 		return userId;
 	}

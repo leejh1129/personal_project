@@ -75,22 +75,22 @@ public class UserDao extends DAO {
 
 	public User charge(int num ,User login) {
 		getOpen();
-		String sql = "update tbl_user "
-					+"set asset=? "
-					+"where user_id =? ";
+		String sql = "update tbl_user set asset=? where user_id =? ";
+		String select = "select user_name, user_id, asset from tbl_user";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, (num+login.getAsset()));
 			pstmt.setString(2, login.getUserId());
 			
-			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				login.setAsset(rs.getInt("asset"));
-				
-				System.out.printf("%s님 충전금액 : %d",login.getUserName(),login.getAsset());
-				System.out.println();
-				System.out.printf("%s님 충전완료금액 : %d",login.getUserName(),login.getAsset());
-			}
+			int asset = num + login.getAsset();
+			int rows = pstmt.executeUpdate();
+			login.setAsset(asset);
+			
+			System.out.printf("충전금액 : %d",num);
+			System.out.println();
+			System.out.printf("아이디 : %s\t 닉네임 : %s\t 충전완료금액 : %d",login.getUserId(),login.getUserName(),asset);
+			System.out.println();
+
 			getClose();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -122,12 +122,26 @@ public class UserDao extends DAO {
 	public void UserDelete(User user) {
 		getOpen();
 		String sql = "delete from tbl_user where user_id =?";
+		String sqlSelect = "select user_id, user_name from tbl_user where user_id=?";
 		try {
+			
+			pstmt = conn.prepareStatement(sqlSelect);
+			pstmt.setString(1, user.getUserId());
+			
+			rs = pstmt.executeQuery();
+			String select = null;
+			if(rs.next()) {
+				select = rs.getString("user_name");
+			}else {
+				System.out.println("없는 회원입니다.");
+			}
+			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserId());
 			
-//			int rows = pstmt.executeUpdate();
-			System.out.println("삭제완료");
+			System.out.printf("아이디 : %s\t 닉네임 : %s\t 삭제완료",user.getUserId(),select);
+			System.out.println();
+			
 			
 		} catch (SQLException e) {
 			e.printStackTrace();

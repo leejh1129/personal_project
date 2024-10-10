@@ -225,6 +225,7 @@ public class ShoppingMain {
 	}	//end of User()
 
 	public static void Manager() {
+		Manager:
 		while (run) {
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println("     | 1.회원목록조회 | 2.회원삭제 | 3.상품목록조회 | 4.상품등록 | 5.상품삭제 | 6.종료 |");
@@ -258,6 +259,14 @@ public class ShoppingMain {
 				System.out.println("----------------------------------------------------------------------------");
 				System.out.println("                            상품등록");
 				System.out.println("----------------------------------------------------------------------------");
+				System.out.println("                            등록예시");
+				System.out.println("----------------------------------------------------------------------------");
+				System.out.println("상품번호 : A브랜드약어_상품코드_사이즈색상");
+				System.out.println("브랜드명 : 스톤아일랜드,cp컴퍼니 ....");
+				System.out.println("카테고리 : 맨투맨,후드티...");
+				System.out.println("카테고리번호 : 1.맨투맨 2.후트티 3.니트 4.바지");
+				System.out.println("색상 : 블랙,레드..");
+				System.out.println("상품명 : 알렉산더맥퀸 그래픽 맨투맨...");
 				System.out.print("상품번호를 입력하세요>>");
 				String goodsNum = sc.nextLine();
 				System.out.print("브랜드를 입력하세요>>");
@@ -282,9 +291,16 @@ public class ShoppingMain {
 				break;
 			case 5:
 				//상품 삭제
+				System.out.println("----------------------------------------------------------------------------");
+				System.out.println("                            상품삭제");
+				System.out.println("----------------------------------------------------------------------------");
+				System.out.println("삭제할 상품번호를 입력하세요>>");
+				String goodsDelete = sc.nextLine();
+				goods.setGoodsNum(goodsDelete);
+				gdao.delete(goods);
 				break;
 			case 6:
-				break;
+				break Manager;
 				default :
 					System.out.println("잘못입력하셧습니다.");
 			}
