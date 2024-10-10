@@ -58,8 +58,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", responsibility="
-				+ responsibility + ", asset=" + asset + "]";
+		return "아이디 : " + userId + "비밀번호 : " + userPw + "닉네임 : " + userName + "권한 : "
+				+ responsibility + "포인트 : " + asset;
 	}
 
 }
