@@ -104,7 +104,10 @@ public class ShoppingMain {
 							String view = sc.nextLine();
 							switch(view) {
 							case "스톤아일랜드":
-								while(run) {				
+								while(run) {		
+									System.out.println("----------------------------------------------------------------------------");
+									System.out.println("                                카테고리");
+									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("               | 1.제품상세보기 | 2.장바구니담기 | 3.카테고리");
 									System.out.println("----------------------------------------------------------------------------");
@@ -127,7 +130,10 @@ public class ShoppingMain {
 								}
 								break;
 							case "cp컴퍼니":
-								while(run) {				
+								while(run) {			
+									System.out.println("----------------------------------------------------------------------------");
+									System.out.println("                                카테고리");
+									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("               | 1.제품상세보기 | 2.장바구니담기 | 3.카테고리");
 									System.out.println("----------------------------------------------------------------------------");
@@ -143,6 +149,48 @@ public class ShoppingMain {
 										// 상품번호 입력받아서 장바구니 테이블에 담기
 										// 장바구니에있는 상품들 삭제,구매
 										// 구매하면 tbl_goods테이블에서 카운트 -1
+										while(run) {
+											System.out.println("----------------------------------------------------------------------------");
+											System.out.println("                                카테고리");
+											System.out.println("----------------------------------------------------------------------------");
+											System.out.println("----------------------------------------------------------------------------");
+											System.out.println("                   | 1.장바구니 추가 | 2.삭제 | 3.전체구매 | 4.돌아가기");
+											System.out.println("----------------------------------------------------------------------------");
+											System.out.print("메뉴를 선택하세요>>");
+											num = Integer.parseInt(sc.nextLine());
+											switch(num) {
+											case 1:
+												System.out.println("----------------------------------------------------------------------------");
+												System.out.println("                                장바구니 추가");
+												System.out.println("----------------------------------------------------------------------------");
+												System.out.println("----------------------------------------------------------------------------");
+												System.out.println("                           | 1.추가 | 2.돌아가기 |");
+												System.out.println("----------------------------------------------------------------------------");
+												System.out.print("메뉴를 선택하세요>>");
+												num = Integer.parseInt(sc.nextLine());
+												switch(num) {
+												case 1:
+													System.out.println("추가하실 상품명을 입력해주세요>>");
+													String cartList = sc.nextLine();
+													CartDao cdao = new CartDao();
+													cdao.insert(cartList,login);
+													break;
+												case 2:
+													break;
+													default :
+														System.out.println("잘못입력하셧습니다.");
+												}
+												break;
+											case 2:
+												break;
+											case 3:
+												break;
+											case 4:
+												break;
+												default :
+													System.out.println("잘못입력하셧습니다.");
+											}
+										}
 										break;
 									case 3:
 										break category;

@@ -63,4 +63,5 @@ public class User {
 				+ responsibility + "포인트 : " + asset;
 	}
 
+
 }
