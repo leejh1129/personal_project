@@ -55,22 +55,26 @@ public class UserDao extends DAO {
 		return 0;
 	}	//end of insert
 
-	public void pointcheck(User login) {
+	public int pointcheck(User login) {
 		getOpen();
 		String sql = "select asset from tbl_user where user_id =?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, login.getUserId());
 			rs = pstmt.executeQuery();
+			int check = 0;
 			while(rs.next()) {
 				login.setAsset(rs.getInt("asset"));
 				System.out.printf("%s 님의 현재 포인트 : %d ",login.getUserName(),login.getAsset());
 				System.out.println();
+				check = login.getAsset();
 			}
 			getClose();
+			return check;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return 0;
 	}	// end of pointcheck
 
 	public User charge(int num ,User login) {

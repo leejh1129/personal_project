@@ -15,7 +15,7 @@ public class ShoppingMain {
 	public static void main(String[] args) {
 
 
-
+			login :
 			while (run) {
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println("                             | 1.로그인 | 2.회원가입 |");
@@ -78,7 +78,7 @@ public class ShoppingMain {
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println("                                카테고리");
 			System.out.println("----------------------------------------------------------------------------");
-			System.out.println("       | 1.맨투맨 | 2.후드티 | 3.니트 | 4.바지 | 5.포인트확인 | 6.포인트충전 |7.종료 | ");
+			System.out.println("     | 1.맨투맨 | 2.후드티 | 3.니트 | 4.바지 | 5.포인트확인 | 6.포인트충전 |7.종료 | ");
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.print("카테고리를 선택해주세요>>");
 			int num = Integer.parseInt(sc.nextLine());
@@ -127,9 +127,27 @@ public class ShoppingMain {
 								}
 								break;
 							case "cp컴퍼니":
-								goods = new Goods(view);
-								gdao.selectView(goods);
-								break;
+								while(run) {				
+									System.out.println("----------------------------------------------------------------------------");
+									System.out.println("               | 1.제품상세보기 | 2.장바구니담기 | 3.카테고리");
+									System.out.println("----------------------------------------------------------------------------");
+									goods = new Goods(view);
+									gdao.selectView(goods);
+									System.out.print("메뉴를 선택하세요>>");
+									num = Integer.parseInt(sc.nextLine());
+									switch(num) {
+									case 1:
+										// 상품번호 입력받아서 리뷰 구매수 표시
+										break;
+									case 2:
+										// 상품번호 입력받아서 장바구니 테이블에 담기
+										// 장바구니에있는 상품들 삭제,구매
+										// 구매하면 tbl_goods테이블에서 카운트 -1
+										break;
+									case 3:
+										break category;
+									}
+								}
 							default :
 								System.out.println("잘못입력하셧습니다.");
 							}
@@ -141,9 +159,45 @@ public class ShoppingMain {
 							System.out.print("구매하실 상품번호를 입력해주세요>>");
 							String goodsNum = sc.nextLine();
 							goods.setGoodsNum(goodsNum);
-							gdao.purchase(goods);
 							// 구매확정을하면 포인트 확인 후 결제할수있으면 tbl_goods테이블에 count 하나 빼기
 							// 옷 가격많큼 포인트 빼기
+							구매:
+							while(run) {
+								System.out.println("----------------------------------------------------------------------------");
+								System.out.println("                                구매");
+								System.out.println("----------------------------------------------------------------------------");
+								System.out.println("                   | 1.구매하기 | 2.장바구니 | 3.되돌아가기 |");
+								System.out.println("----------------------------------------------------------------------------");
+								gdao.purchase(goods);
+								System.out.print("메뉴를 입력하세요>>");
+								num = Integer.parseInt(sc.nextLine());
+								switch(num) {
+								case 1:
+									gdao.purchase(goods);
+									System.out.print("구매수량을 입력하세요>>");
+									num = Integer.parseInt(sc.nextLine());
+									System.out.print("해당 상품을 구매하시겠습니까?? y : 구매 , n : 취소>>");
+									String a = sc.nextLine();
+									switch(a) {
+									case "y":
+										goods.setGoodsNum(goodsNum);
+										gdao.update(goods,num,login,udao.pointcheck(login));
+										break;
+									case "n":
+										break;
+										default:
+											System.out.println("잘못입력하셧습니다");
+									}
+									
+								case 2:
+								case 3:
+									break 구매;
+									default:
+										System.out.println("잘못입력하셧습니다");
+								}
+								
+							}
+							
 							System.out.println();
 							break category;
 						case 4:
@@ -261,23 +315,17 @@ public class ShoppingMain {
 				System.out.println("----------------------------------------------------------------------------");
 				System.out.println("                            등록예시");
 				System.out.println("----------------------------------------------------------------------------");
-				System.out.println("상품번호 : A브랜드약어_상품코드_사이즈색상");
-				System.out.println("브랜드명 : 스톤아일랜드,cp컴퍼니 ....");
-				System.out.println("카테고리 : 맨투맨,후드티...");
-				System.out.println("카테고리번호 : 1.맨투맨 2.후트티 3.니트 4.바지");
-				System.out.println("색상 : 블랙,레드..");
-				System.out.println("상품명 : 알렉산더맥퀸 그래픽 맨투맨...");
-				System.out.print("상품번호를 입력하세요>>");
+				System.out.print("상품번호를 입력하세요 (상품번호 : A브랜드약어_상품코드_사이즈색상)>>");
 				String goodsNum = sc.nextLine();
-				System.out.print("브랜드를 입력하세요>>");
+				System.out.print("브랜드를 입력하세요 (브랜드명 : 스톤아일랜드,cp컴퍼니 ....)>>");
 				String goodsBrand = sc.nextLine();
-				System.out.print("카테고리를 입력하세요>>");
+				System.out.print("카테고리를 입력하세요 (카테고리 : 맨투맨,후드티...)>>");
 				String goodsCategory = sc.nextLine();
-				System.out.print("카테고리번호를 입력하세요>>");
+				System.out.print("카테고리번호를 입력하세요 (카테고리번호 : 1.맨투맨 2.후트티 3.니트 4.바지)>>");
 				int goodsCategoryNum = Integer.parseInt(sc.nextLine());
-				System.out.print("색상을 입력하세요>>");
+				System.out.print("색상을 입력하세요 (색상 : 블랙,레드..)>>");
 				String goodsColor = sc.nextLine();
-				System.out.print("상품명을 입력하세요>>");
+				System.out.print("상품명을 입력하세요 (상품명 : 알렉산더맥퀸 그래픽 맨투맨...)>>");
 				String goodsName = sc.nextLine();
 				System.out.print("가격을 입력하세요>>");
 				int goodsPrice = Integer.parseInt(sc.nextLine());
