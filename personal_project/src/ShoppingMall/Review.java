@@ -2,16 +2,16 @@ package ShoppingMall;
 
 public class Review {
 
-	private int goodsNumFk;
+	private String goodsNumFk;
 	private String userIdFk;
 	private String review;
 	private String reviewDate;
 
-	public int getGoodsNumFk() {
+	public String getGoodsNumFk() {
 		return goodsNumFk;
 	}
 
-	public void setGoodsNumFk(int goodsNumFk) {
+	public void setGoodsNumFk(String goodsNumFk) {
 		this.goodsNumFk = goodsNumFk;
 	}
 

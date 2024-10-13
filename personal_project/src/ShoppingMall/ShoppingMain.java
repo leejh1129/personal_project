@@ -18,7 +18,7 @@ public class ShoppingMain {
 			login :
 			while (run) {
 			System.out.println("----------------------------------------------------------------------------");
-			System.out.println("                             | 1.로그인 | 2.회원가입 |");
+			System.out.println("                      | 1.로그인 | 2.회원가입 | 3.종료 |");
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.print("목록을 선택하세요>>");
 			int num = Integer.parseInt(sc.nextLine());
@@ -65,6 +65,9 @@ public class ShoppingMain {
 //				}
 
 				break;
+			case 3:
+				run = false;
+				break;
 			default:
 				System.out.println("잘못입력하셧습니다 다시 입력해주세요.");
 			} // end of 로그인,회원가입 switch
@@ -73,7 +76,7 @@ public class ShoppingMain {
 	} // end of amin
 
 	public static void User() {
-		
+		user :
 		while (run) {
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println("                                카테고리");
@@ -91,12 +94,13 @@ public class ShoppingMain {
 					System.out.println("----------------------------------------------------------------------------");
 					System.out.println("                | 스톤아일랜드 | cp컴퍼니 | .... | ..... | .....|");
 					System.out.println("----------------------------------------------------------------------------");
-					System.out.println("         | 1.브랜드별 묶어보기 | 2.제품상세보기 | 3.구매 | 4.장바구니담기 | 5.카테고리 |");
+					System.out.println("         | 1.브랜드별 묶어보기 | 2.리뷰보기 | 3.구매 | 4.카테고리 |");
 					System.out.println("----------------------------------------------------------------------------");
 					goods = new Goods(num);
 					gdao.select(goods);
 					System.out.print("메뉴를 선택하세요>>");
 					num = Integer.parseInt(sc.nextLine());
+					리뷰 :
 					while(run) {
 						switch(num) {
 						case 1:
@@ -109,7 +113,7 @@ public class ShoppingMain {
 									System.out.println("                                카테고리");
 									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("----------------------------------------------------------------------------");
-									System.out.println("               | 1.제품상세보기 | 2.장바구니담기 | 3.카테고리");
+									System.out.println("                             | 1.되돌아가기 |");
 									System.out.println("----------------------------------------------------------------------------");
 									goods = new Goods(view);
 									gdao.selectView(goods);
@@ -117,14 +121,6 @@ public class ShoppingMain {
 									num = Integer.parseInt(sc.nextLine());
 									switch(num) {
 									case 1:
-										// 상품번호 입력받아서 리뷰 구매수 표시
-										break;
-									case 2:
-										// 상품번호 입력받아서 장바구니 테이블에 담기
-										// 장바구니에있는 상품들 삭제,구매
-										// 구매하면 tbl_goods테이블에서 카운트 -1
-										break;
-									case 3:
 										break category;
 									}
 								}
@@ -135,7 +131,7 @@ public class ShoppingMain {
 									System.out.println("                                카테고리");
 									System.out.println("----------------------------------------------------------------------------");
 									System.out.println("----------------------------------------------------------------------------");
-									System.out.println("               | 1.제품상세보기 | 2.장바구니담기 | 3.카테고리");
+									System.out.println("                             | 1.되돌아가기 |");
 									System.out.println("----------------------------------------------------------------------------");
 									goods = new Goods(view);
 									gdao.selectView(goods);
@@ -143,56 +139,6 @@ public class ShoppingMain {
 									num = Integer.parseInt(sc.nextLine());
 									switch(num) {
 									case 1:
-										// 상품번호 입력받아서 리뷰 구매수 표시
-										break;
-									case 2:
-										// 상품번호 입력받아서 장바구니 테이블에 담기
-										// 장바구니에있는 상품들 삭제,구매
-										// 구매하면 tbl_goods테이블에서 카운트 -1
-										while(run) {
-											System.out.println("----------------------------------------------------------------------------");
-											System.out.println("                                카테고리");
-											System.out.println("----------------------------------------------------------------------------");
-											System.out.println("----------------------------------------------------------------------------");
-											System.out.println("                   | 1.장바구니 추가 | 2.삭제 | 3.전체구매 | 4.돌아가기");
-											System.out.println("----------------------------------------------------------------------------");
-											System.out.print("메뉴를 선택하세요>>");
-											num = Integer.parseInt(sc.nextLine());
-											switch(num) {
-											case 1:
-												System.out.println("----------------------------------------------------------------------------");
-												System.out.println("                                장바구니 추가");
-												System.out.println("----------------------------------------------------------------------------");
-												System.out.println("----------------------------------------------------------------------------");
-												System.out.println("                           | 1.추가 | 2.돌아가기 |");
-												System.out.println("----------------------------------------------------------------------------");
-												System.out.print("메뉴를 선택하세요>>");
-												num = Integer.parseInt(sc.nextLine());
-												switch(num) {
-												case 1:
-													System.out.println("추가하실 상품명을 입력해주세요>>");
-													String cartList = sc.nextLine();
-													CartDao cdao = new CartDao();
-													cdao.insert(cartList,login);
-													break;
-												case 2:
-													break;
-													default :
-														System.out.println("잘못입력하셧습니다.");
-												}
-												break;
-											case 2:
-												break;
-											case 3:
-												break;
-											case 4:
-												break;
-												default :
-													System.out.println("잘못입력하셧습니다.");
-											}
-										}
-										break;
-									case 3:
 										break category;
 									}
 								}
@@ -202,7 +148,12 @@ public class ShoppingMain {
 							break;
 						case 2:
 							// 상품번호 입력받아서 리뷰 구매수 표시
-							break;
+							System.out.print("리뷰확인하실 상품명을 입력하세요>>");
+							String review = sc.nextLine();
+							ReviewDao rdao = new ReviewDao();
+							rdao.select(review);
+							System.out.println();
+							break category;
 						case 3:
 							System.out.print("구매하실 상품번호를 입력해주세요>>");
 							String goodsNum = sc.nextLine();
@@ -229,7 +180,13 @@ public class ShoppingMain {
 									switch(a) {
 									case "y":
 										goods.setGoodsNum(goodsNum);
-										gdao.update(goods,num,login,udao.pointcheck(login));
+//										gdao.update(goods,num,login,udao.pointcheck(login));
+										if(gdao.update(goods,num,login,udao.pointcheck(login)) == 1) {
+											System.out.println("리뷰를 작성하세요>>");
+											String reviewText = sc.next();
+											ReviewDao rv = new ReviewDao();
+											rv.insert(login,goodsNum,reviewText);
+										}
 										break;
 									case "n":
 										break;
@@ -249,11 +206,6 @@ public class ShoppingMain {
 							System.out.println();
 							break category;
 						case 4:
-							// 상품번호 입력받아서 장바구니 테이블에 담기
-							// 장바구니에있는 상품들 삭제,구매
-							// 구매하면 tbl_goods테이블에서 카운트 -1
-							break;
-						case 5:
 							break category;
 						}
 					}
@@ -314,12 +266,10 @@ public class ShoppingMain {
 				System.out.println("----------------------------------------------------------------------------");
 				System.out.print("충전할 금액을 입력하세요>>");
 				num = Integer.parseInt(sc.nextLine());
-//				login.setAsset(num);
 				udao.charge(num,login);
 				break;
 			case 7:
-				run = false;
-				break;
+				break user;
 			default:
 				System.out.println("잘못입력하셧습니다.");
 			}	//end of 맨투맨 switch
