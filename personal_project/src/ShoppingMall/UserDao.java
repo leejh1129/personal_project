@@ -142,6 +142,7 @@ public class UserDao extends DAO {
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserId());
+			pstmt.executeUpdate();
 			
 			System.out.printf("아이디 : %s\t 닉네임 : %s\t 삭제완료",user.getUserId(),select);
 			System.out.println();

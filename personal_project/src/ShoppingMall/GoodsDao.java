@@ -7,7 +7,8 @@ public class GoodsDao extends DAO {
 	public void select(Goods num) {
 		getOpen();
 		String sql = "select distinct goods_color," + "        goods_name," + "        goods_price, "
-				+ "        goods_brand, " + "        goods_num ,goods_count " + "from tbl_goods where goods_categorynum=?";
+				+ "        goods_brand, " + "        goods_num ,goods_count "
+				+ "from tbl_goods where goods_categorynum=?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, num.getGoodsCategoryNum());
@@ -23,7 +24,7 @@ public class GoodsDao extends DAO {
 				num.setGoodsCount(rs.getInt("goods_count"));
 
 				System.out.printf("%s\t%s\t%s\t%d\t%s\t%d", num.getGoodsNum(), num.getGoodsBrand(), num.getGoodsName(),
-						num.getGoodsPrice(), num.getGoodsColor() ,num.getGoodsCount());
+						num.getGoodsPrice(), num.getGoodsColor(), num.getGoodsCount());
 				System.out.println();
 			}
 			getClose();
@@ -52,8 +53,9 @@ public class GoodsDao extends DAO {
 				goods.setGoodsColor(rs.getString("goods_color"));
 				goods.setGoodsBrand(rs.getString("goods_brand"));
 
-				System.out.printf("%s\t%s\t%s\t%d\t%s\t%d\t%d", goods.getGoodsNum(),goods.getGoodsBrand(), goods.getGoodsName(),
-						goods.getGoodsPrice(), goods.getGoodsColor(), goods.getGoodsSize(), goods.getGoodsCount());
+				System.out.printf("%s\t%s\t%s\t%d\t%s\t%d\t%d", goods.getGoodsNum(), goods.getGoodsBrand(),
+						goods.getGoodsName(), goods.getGoodsPrice(), goods.getGoodsColor(), goods.getGoodsSize(),
+						goods.getGoodsCount());
 				System.out.println();
 			}
 			getClose();
@@ -82,9 +84,9 @@ public class GoodsDao extends DAO {
 				goods.setGoodsSize(rs.getInt("goods_size"));
 				goods.setGoodsCount(rs.getInt("goods_count"));
 
-				System.out.printf("상품번호: %s\t 브랜드: %s\t 맨투맨: %s\t 색상: %s\t 상품명: %s\t 가격: %d\t 사이즈: %d\t 수량: %d", goods.getGoodsNum(), goods.getGoodsBrand(),
-						goods.getGoodsCategory(), goods.getGoodsColor(), goods.getGoodsName(), goods.getGoodsPrice(),
-						goods.getGoodsSize(),goods.getGoodsCount());
+				System.out.printf("상품번호: %s\t 브랜드: %s\t 맨투맨: %s\t 색상: %s\t 상품명: %s\t 가격: %d\t 사이즈: %d\t 수량: %d",
+						goods.getGoodsNum(), goods.getGoodsBrand(), goods.getGoodsCategory(), goods.getGoodsColor(),
+						goods.getGoodsName(), goods.getGoodsPrice(), goods.getGoodsSize(), goods.getGoodsCount());
 				System.out.println();
 			}
 			getClose();
@@ -171,13 +173,15 @@ public class GoodsDao extends DAO {
 			pstmt.setString(1, goods.getGoodsNum());
 			System.out.printf("상품번호 : %s\t상품명 : %s\t 삭제완료", goods.getGoodsNum(), select);
 			System.out.println();
+			
+			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public int update(Goods goods, int num, User login ,int pointcheck) {
+	public int update(Goods goods, int num, User login, int pointcheck) {
 		getOpen();
 		String sql = "update tbl_goods set goods_count=? where goods_num=upper(?)";
 		String updateUser = "update tbl_user set asset=? where user_id=?";
@@ -187,52 +191,47 @@ public class GoodsDao extends DAO {
 			pstmt = conn.prepareStatement(selectGoods);
 			pstmt.setString(1, goods.getGoodsNum());
 			rs = pstmt.executeQuery();
-			if(rs.next()) {				
+			if (rs.next()) {
 				goods.setGoodsCount(rs.getInt("goods_count"));
 			}
-			
+
 			int rows = 0;
 			pstmt = conn.prepareStatement(sql);
-			
+
 			int num1 = goods.getGoodsCount();
-			
+
 			if (goods.getGoodsCount() >= num) {
-				num1 = goods.getGoodsCount() - num;
-				pstmt.setInt(1, num1);
-				pstmt.setString(2, goods.getGoodsNum());
-				rows = pstmt.executeUpdate();
-				
-			} else {				
-				System.out.println("선택하신 제품수량이 부족합니다 현재 수량 : " + num1);
-			}
-			
-			if(rows == 1) {				
-				pstmt = conn.prepareStatement(updateUser);
-				
-				int num2 = login.getAsset();
-				
-				if(login.getAsset() >= (goods.getGoodsPrice()*num)) {
-					num2 = login.getAsset() -(goods.getGoodsPrice()*num);
+				if (login.getAsset() >= (goods.getGoodsPrice() * num)) {
+					num1 = goods.getGoodsCount() - num;
+					pstmt.setInt(1, num1);
+					pstmt.setString(2, goods.getGoodsNum());
+					rows = pstmt.executeUpdate();
+
+					pstmt = conn.prepareStatement(updateUser);
+
+					int num2 = login.getAsset();
+					num2 = login.getAsset() - (goods.getGoodsPrice() * num);
 					pstmt.setInt(1, num2);
 					pstmt.setString(2, login.getUserId());
-					pstmt.executeUpdate();
 					System.out.println("결제완료");
 					System.out.println("남은 포인트 : " + num2);
+					rows = pstmt.executeUpdate();
+
 				} else {
 					System.out.println("포인트가 부족합니다");
 				}
+
+			} else {
+				System.out.println("선택하신 제품수량이 부족합니다 현재 수량 : " + num1);
 			}
 
-			
-			return rows;
 
-			
+			return rows;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return 0;
 	}
-
 
 }

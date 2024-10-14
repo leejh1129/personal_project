@@ -34,6 +34,7 @@ public class ReviewDao extends DAO{
 			
 			Review rv = new Review();
 			rs = pstmt.executeQuery();
+			System.out.println("구매자:\t상품명\t리뷰\t구매시간");
 			while(rs.next()) {
 				rv.setGoodsNumFk(rs.getString("goods_num"));
 				rv.setUserIdFk(rs.getString("user_id"));

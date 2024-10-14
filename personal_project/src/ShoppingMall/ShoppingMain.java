@@ -81,7 +81,7 @@ public class ShoppingMain {
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.println("                                카테고리");
 			System.out.println("----------------------------------------------------------------------------");
-			System.out.println("     | 1.맨투맨 | 2.후드티 | 3.니트 | 4.바지 | 5.포인트확인 | 6.포인트충전 |7.종료 | ");
+			System.out.println("    | 1.맨투맨 | 2.후드티 | 3.니트 | 4.바지 | 5.포인트확인 | 6.포인트충전 | 7.로그아웃 | ");
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.print("카테고리를 선택해주세요>>");
 			int num = Integer.parseInt(sc.nextLine());
@@ -94,7 +94,7 @@ public class ShoppingMain {
 					System.out.println("----------------------------------------------------------------------------");
 					System.out.println("                | 스톤아일랜드 | cp컴퍼니 | .... | ..... | .....|");
 					System.out.println("----------------------------------------------------------------------------");
-					System.out.println("         | 1.브랜드별 묶어보기 | 2.리뷰보기 | 3.구매 | 4.카테고리 |");
+					System.out.println("                | 1.브랜드별 묶어보기 | 2.리뷰보기 | 3.구매 | 4.카테고리 |");
 					System.out.println("----------------------------------------------------------------------------");
 					goods = new Goods(num);
 					gdao.select(goods);
@@ -165,7 +165,7 @@ public class ShoppingMain {
 								System.out.println("----------------------------------------------------------------------------");
 								System.out.println("                                구매");
 								System.out.println("----------------------------------------------------------------------------");
-								System.out.println("                   | 1.구매하기 | 2.장바구니 | 3.되돌아가기 |");
+								System.out.println("                     | 1.구매하기 | 3.되돌아가기 |");
 								System.out.println("----------------------------------------------------------------------------");
 								gdao.purchase(goods);
 								System.out.print("메뉴를 입력하세요>>");
@@ -183,7 +183,7 @@ public class ShoppingMain {
 //										gdao.update(goods,num,login,udao.pointcheck(login));
 										if(gdao.update(goods,num,login,udao.pointcheck(login)) == 1) {
 											System.out.println("리뷰를 작성하세요>>");
-											String reviewText = sc.next();
+											String reviewText = sc.nextLine();
 											ReviewDao rv = new ReviewDao();
 											rv.insert(login,goodsNum,reviewText);
 										}
@@ -195,7 +195,6 @@ public class ShoppingMain {
 									}
 									
 								case 2:
-								case 3:
 									break 구매;
 									default:
 										System.out.println("잘못입력하셧습니다");
@@ -280,7 +279,10 @@ public class ShoppingMain {
 		Manager:
 		while (run) {
 			System.out.println("----------------------------------------------------------------------------");
-			System.out.println("     | 1.회원목록조회 | 2.회원삭제 | 3.상품목록조회 | 4.상품등록 | 5.상품삭제 | 6.종료 |");
+			System.out.println("                                 관리자");
+			System.out.println("----------------------------------------------------------------------------");
+			System.out.println("----------------------------------------------------------------------------");
+			System.out.println("     | 1.회원목록조회 | 2.회원삭제 | 3.상품목록조회 | 4.상품등록 | 5.상품삭제 | 6.로그아웃 |");
 			System.out.println("----------------------------------------------------------------------------");
 			System.out.print("목록을 선택하세요>>");
 			int num = Integer.parseInt(sc.nextLine());

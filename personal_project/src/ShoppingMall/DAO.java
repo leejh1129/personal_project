@@ -18,7 +18,7 @@ public class DAO {
 			// jdbc 등록
 			Class.forName("oracle.jdbc.OracleDriver");
 			// 연결
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", // url
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.14:1521:xe", // url
 					"java", // 계정
 					"1234"); // 비밀번호
 //			System.out.println("연결성공");
